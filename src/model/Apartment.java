@@ -1,7 +1,10 @@
 package model;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Calendar;
+
+import controller.ReturnException;
 
 public class Apartment extends RentalProperty {
 	private int minimum; // ����ס����
@@ -11,15 +14,15 @@ public class Apartment extends RentalProperty {
 	public Apartment() {
 	}
 
-	public Apartment(String pid, String type, int sn, String sna, String sb, int nb, String sts, String description, File imageFile) {
-		super(pid, type, sn, sna, sb, nb,sts, description, imageFile);
+	public Apartment(String pid, String type, String sn, String sna, String sb, int nb, String sts, String description,
+			File imageFile) throws Exception {
+		super(pid, type, sn, sna, sb, nb, sts, description, imageFile);
 		if (nb == 3)
 			this.rate = 319;
 		else if (nb == 2)
 			this.rate = 210;
 		else if (nb == 1)
 			this.rate = 143;
-		setPropertyType("Apartment");
 	}
 
 	public int getMinimum(DateTime rentDate) { // ����һ�죬�������С��������
@@ -41,60 +44,40 @@ public class Apartment extends RentalProperty {
 		return maximum;
 	}
 
-	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
-		if (!getPropertyStatue().equals("available") || numOfRentDay < getMinimum(rentDate)
-				|| numOfRentDay > getMaximum())
-			return false;
-		else {
-			setPropertyStatue("rented"); // ���³���״̬
-			for (int i = getRecord().length - 1; i >= 0; i--) { // ���¼�¼����
-				if (getRecord()[i] != null && i != getRecord().length - 1) {
-					getRecord()[i + 1] = getRecord()[i];
-				}
+	public void rent(String customerId, DateTime rentDate, int numOfRentDay) throws controller.RentException {
+		if (rentDate.diffDays(rentDate, new DateTime()) < 0)
+			throw new controller.RentException(3);
+		if (numOfRentDay < getMinimum(rentDate))
+			throw new controller.RentException(2);
+		if (numOfRentDay > getMaximum())
+			throw new controller.RentException(1);
+		setPropertyStatue("rented"); // ���³���״̬
+		getRecord()[0] = new RentalRecord(getPropertyId(), customerId, rentDate, numOfRentDay);
+
+	}
+
+	public void returnProperty(DateTime returnDate) throws ReturnException {
+		if (returnDate.getTime() < getRecord()[0].getRentDate().getTime())
+			throw new ReturnException(1);
+		setPropertyStatue("available"); // ���³���״̬
+		getRecord()[0].setArDate(returnDate);
+		// ����fee
+		getRecord()[0].setRentalFee(new DateTime().diffDays(returnDate, getRecord()[0].getRentDate()) * rate);
+		if (new DateTime().diffDays(returnDate, getRecord()[0].getErDate()) > 0) // ������
+			getRecord()[0].setLateFee(1.15 * rate * new DateTime().diffDays(returnDate, getRecord()[0].getErDate()));
+		else
+			getRecord()[0].setLateFee(0);
+
+		for (int i = getRecord().length - 2; i >= 0; i--) { // ���¼�¼����
+			if (getRecord()[i] != null && i != getRecord().length - 1) {
+				getRecord()[i + 1] = getRecord()[i];
 			}
-			getRecord()[0] = new RentalRecord(getPropertyId(), customerId, rentDate, numOfRentDay);
-			return true;
-		}
-	}
-
-	public boolean returnProperty(DateTime returnDate) {
-		if (!getPropertyStatue().equals("rented") || returnDate.getTime() < getRecord()[0].getRentDate().getTime()
-				|| DateTime.diffDays(returnDate, getRecord()[0].getRentDate()) < minimum)
-			return false;
-		else {
-			setPropertyStatue("available"); // ���³���״̬
-			getRecord()[0].setArDate(returnDate);
-			// ����fee
-			getRecord()[0].setRentalFee(DateTime.diffDays(returnDate, getRecord()[0].getRentDate()) * rate);
-			if (DateTime.diffDays(returnDate, getRecord()[0].getErDate()) > 0) // ������
-				getRecord()[0].setLateFee(1.15 * rate * DateTime.diffDays(returnDate, getRecord()[0].getErDate()));
-			else
-				getRecord()[0].setLateFee(0);
-			return true;
-		}
-	}
-
-	public boolean performMaintenance() {
-		if (!getPropertyStatue().equals("available"))
-			return false;
-		else {
-			setPropertyStatue("maintenance"); // ����ά��
-			return true;
-		}
-	}
-
-	public boolean completeMaintenance(DateTime completionDate) {
-		if (!getPropertyStatue().equals("maintenance"))
-			return false;
-		else {
-			setPropertyStatue("available"); // ά�����
-			return true;
 		}
 	}
 
 	public String toString() {
 		return getPropertyId() + ":" + String.valueOf(getStreetNum()) + ":" + getStreetName() + ":" + getSuburb() + ":"
-				+ getPropertyType() + ":" + String.valueOf(getNumBedroom()) + ":" + getPropertyStatue();
+				+ getType() + ":" + String.valueOf(getNumBedroom()) + ":" + getPropertyStatue();
 	}
 
 	@Override

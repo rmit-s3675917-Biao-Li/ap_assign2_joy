@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="733.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
+<BorderPane prefHeight="957.0" prefWidth="1398.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HomeController">
    <top>
       <VBox BorderPane.alignment="CENTER">
          <children>
@@ -57,10 +57,10 @@
          <children>
             <HBox alignment="CENTER" spacing="60.0" VBox.vgrow="ALWAYS">
                <children>
-                  <ComboBox fx:id="propertyType" promptText="PropertyType" />
-                  <ComboBox fx:id="suburb" prefHeight="27.0" prefWidth="131.0" promptText="Suburb" />
-                  <ComboBox fx:id="status" prefHeight="27.0" prefWidth="131.0" promptText="Status" />
-                  <ComboBox fx:id="bedroomNo" prefHeight="27.0" prefWidth="131.0" promptText="BedroomNo" />
+                  <ComboBox fx:id="propertyType" onAction="#changed" promptText="PropertyType" />
+                  <ComboBox fx:id="suburb" onAction="#changed" prefHeight="27.0" prefWidth="131.0" promptText="Suburb" />
+                  <ComboBox fx:id="status" onAction="#changed" prefHeight="27.0" prefWidth="131.0" promptText="Status" />
+                  <ComboBox fx:id="bedroomNo" onAction="#changed" prefHeight="27.0" prefWidth="131.0" promptText="BedroomNo" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -71,7 +71,7 @@
             </HBox>
             <ScrollPane>
                <content>
-                  <FlowPane fx:id="flowpane" prefHeight="892.0" prefWidth="930.0" />
+                  <FlowPane fx:id="flowpane" prefHeight="892.0" prefWidth="1394.0" />
                </content>
             </ScrollPane>
          </children>

@@ -74,7 +74,7 @@ public class DateTime {
 	}
 
 	// returns difference in days
-	public static int diffDays(DateTime endDate, DateTime startDate) {
+	public int diffDays(DateTime endDate, DateTime startDate) {
 		final long HOURS_IN_DAY = 24L;
 		final int MINUTES_IN_HOUR = 60;
 		final int SECONDS_IN_MINUTES = 60;

@@ -1,24 +1,31 @@
 package model;
 
 import java.io.File;
+import java.net.MalformedURLException;
+
+import controller.RentException;
+import controller.ReturnException;
+import javafx.scene.image.Image;
 
 public abstract class RentalProperty {
 	private String propertyId;
-	private int streetNum;
+	private String streetNum;
 	private String streetName, description;
 	private String suburb;
 	private int numBedroom;
-	private String propertyType;
 	private String propertyStatue;
 	private File imageFile;
 	private String type;
-	
+	private Image image;
+
 	private RentalRecord[] record = new RentalRecord[11];
+	private DateTime lmDate;
 
 	public RentalProperty() {
 	}
 
-	public RentalProperty(String pid, String type, int sn, String sna, String sb, int nb, String sts, String description, File imageFile) {
+	public RentalProperty(String pid, String type, String sn, String sna, String sb, int nb, String sts,
+			String description, File imageFile) throws MalformedURLException {
 		this.propertyId = pid;
 		this.type = type;
 		this.streetNum = sn;
@@ -28,6 +35,12 @@ public abstract class RentalProperty {
 		this.propertyStatue = sts;
 		this.description = description;
 		this.imageFile = imageFile;
+		this.image = new Image(this.imageFile.toURI().toURL().toString());
+
+	}
+
+	public Image getImage() {
+		return image;
 	}
 
 	public String getType() {
@@ -42,7 +55,7 @@ public abstract class RentalProperty {
 		return propertyId;
 	}
 
-	public int getStreetNum() {
+	public String getStreetNum() {
 		return streetNum;
 	}
 
@@ -57,7 +70,7 @@ public abstract class RentalProperty {
 	public int getNumBedroom() {
 		return numBedroom;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -78,10 +91,6 @@ public abstract class RentalProperty {
 		this.record = record;
 	}
 
-	public String getPropertyType() {
-		return propertyType;
-	}
-
 	public String getPropertyStatue() {
 		return propertyStatue;
 	}
@@ -94,7 +103,7 @@ public abstract class RentalProperty {
 		this.propertyId = propertyId;
 	}
 
-	public void setStreetNum(int streetNum) {
+	public void setStreetNum(String streetNum) {
 		this.streetNum = streetNum;
 	}
 
@@ -110,26 +119,28 @@ public abstract class RentalProperty {
 		this.numBedroom = numBedroom;
 	}
 
-	public void setPropertyType(String propertyType) {
-		this.propertyType = propertyType;
-	}
-
 	public void setPropertyStatue(String propertyStatue) {
 		this.propertyStatue = propertyStatue;
 	}
 
-	abstract boolean rent(String customerId, DateTime rentDate, int numOfRentDay);
+	public abstract void rent(String customerId, DateTime rentDate, int numOfRentDay) throws RentException;
 
-	abstract boolean returnProperty(DateTime returnDate);
+	public abstract void returnProperty(DateTime returnDate) throws ReturnException;
 
-	abstract boolean performMaintenance();
+	public void performMaintenance() {
+		setPropertyStatue("maintenance"); // ����ά��
+	}
 
-	abstract boolean completeMaintenance(DateTime completionDate);
+	public void completeMaintenance() {
+		this.lmDate = new DateTime();
+		setPropertyStatue("available"); // ά�����
+
+	}
 
 	abstract String getDetails();
 
 	public String toString() {
-		return propertyId + ":" + String.valueOf(streetNum) + ":" + streetName + ":" + suburb + ":" + propertyType + ":"
+		return propertyId + ":" + String.valueOf(streetNum) + ":" + streetName + ":" + suburb + ":" + type + ":"
 				+ String.valueOf(numBedroom) + ":" + propertyStatue;
 	}
 

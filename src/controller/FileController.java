@@ -24,7 +24,7 @@ public class FileController {
 			Scanner input = null;
 			String line = null;
 			String[] ss;
-			RentalRecord[] records = new RentalRecord[10];
+			RentalRecord[] records = new RentalRecord[11];
 			for (int i = 0; i < 11; i++) {
 				records[i] = null;
 			}
@@ -61,11 +61,11 @@ public class FileController {
 						RP.add(p);
 
 					if (ss.length == 9)
-						p = new model.Apartment(ss[0], ss[4], Integer.parseInt(ss[1]), ss[2], ss[3],
+						p = new model.Apartment(ss[0], ss[4], ss[1], ss[2], ss[3],
 								Integer.parseInt(ss[5]), ss[6], ss[8], new File("Files/" + ss[7]));
 					else if (ss.length == 10) {
 						// Integer.parseInt(ss[5])
-						p = new model.PremiumSuite(ss[0], ss[4], Integer.parseInt(ss[1]), ss[2], ss[3], ss[6], ss[9],
+						p = new model.PremiumSuite(ss[0], ss[4], ss[1], ss[2], ss[3], ss[6], ss[9],
 								new File("Files/" + ss[8]), new DateTime(ss[7]));
 					}
 
