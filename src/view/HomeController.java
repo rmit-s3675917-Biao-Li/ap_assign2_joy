@@ -1,28 +1,33 @@
 package view;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import model.DataStorage;
 
 public class HomeController {
@@ -31,6 +36,9 @@ public class HomeController {
 
 	@FXML
 	private MenuItem saveButton;
+
+	@FXML
+	private MenuItem deleteButton;
 
 	@FXML
 	private MenuItem ImportButton;
@@ -60,17 +68,24 @@ public class HomeController {
 	private TextField searchText;
 
 	@FXML
+	private ScrollPane sp;
+
+	ObservableList<String> list4 = FXCollections.observableArrayList();
+
+	@FXML
 	public void initialize() {
+
+		flowpane.prefWidthProperty().bind(sp.widthProperty());
 		setMenu();
 		setFilter();
-		changed();
+		change();
 	}
 
 	private void setMenu() {
 		ImportButton.setOnAction(e -> {
 			try {
 				controller.FileController.importFile();
-				changed();
+				change();
 
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -91,26 +106,34 @@ public class HomeController {
 
 		AddButton.setOnAction(e -> {
 			view.AddPropertyWindow n = new view.AddPropertyWindow();
-			n.show();
+			n.show(this);
 		});
+
+		searchText.setOnKeyTyped(new SearchHandeler());
+
+	}
+
+	public class SearchHandeler implements EventHandler<KeyEvent> {
+
+		@Override
+		public void handle(KeyEvent event) {
+			change();
+		}
 	}
 
 	private void setFilter() {
 		ObservableList<String> list1 = FXCollections.observableArrayList("All", "Apartment", "Premiun Suite");
-		ObservableList<String> list2 = FXCollections.observableArrayList("All", "Available", "Rented", "Maintaining");
+		ObservableList<String> list2 = FXCollections.observableArrayList("All", "available", "rented", "maintenance");
 		ObservableList<String> list3 = FXCollections.observableArrayList("All", "1", "2", "3");
-		ObservableList<String> list4 = FXCollections.observableArrayList();
 		list4.add("All");
 		for (int i = 0; i < DataStorage.getRP().size(); i++) {
 			if (!list4.contains(DataStorage.getRP().get(i).getSuburb()))
 				list4.add(DataStorage.getRP().get(i).getSuburb());
 		}
-
+		suburb.setItems(list4);
 		propertyType.setItems(list1);
 		status.setItems(list2);
 		bedroomNo.setItems(list3);
-		suburb.setItems(list4);
-
 		propertyType.setValue("All");
 		bedroomNo.setValue("All");
 		status.setValue("All");
@@ -145,8 +168,9 @@ public class HomeController {
 		PropertyIDText.setFill(Color.CORNFLOWERBLUE);
 		Text PropertyAddressText = new Text(
 				"Address: " + p.getStreetNum() + " " + p.getStreetName() + " " + p.getSuburb());
-		Text descText = new Text("Description: \n" + p.getDescription());
-
+		TextFlow descriptionTA = new TextFlow();
+		descriptionTA.getChildren().add(new Text("Description: \n" + p.getDescription()));
+		descriptionTA.setPrefSize(600, 100);
 		Button b = new Button("More Details");
 		b.setOnAction(e -> {
 			view.ShowDetailWindow n = new view.ShowDetailWindow();
@@ -154,7 +178,7 @@ public class HomeController {
 			System.out.println("Showing property details");
 		});
 
-		ProperyDetailsVbox.getChildren().addAll(PropertyIDText, PropertyAddressText, descText, b);
+		ProperyDetailsVbox.getChildren().addAll(PropertyIDText, PropertyAddressText, descriptionTA, b);
 		ProperyViewHbox.getChildren().addAll(iv, ProperyDetailsVbox);
 		flowpane.getChildren().add(ProperyViewHbox);
 	}
@@ -180,7 +204,7 @@ public class HomeController {
 	}
 
 	@FXML
-	public void changed() {
+	public void change() {
 		ArrayList<model.RentalProperty> PL = model.DataStorage.getRP();
 		int[] mark = new int[PL.size()];
 		int bednum;
@@ -199,7 +223,9 @@ public class HomeController {
 			if ((PL.get(i).getType().equals(Type) || Type.equals("All"))
 					&& (PL.get(i).getPropertyStatue().equals(Status) || Status.equals("All"))
 					&& (PL.get(i).getSuburb().equals(Suburb) || Suburb.equals("All"))
-					&& ((PL.get(i).getNumBedroom() == bednum) || bednum == -1))
+					&& ((PL.get(i).getNumBedroom() == bednum) || bednum == -1)
+					&& (PL.get(i).getPropertyId().toLowerCase().contains(searchText.getText())
+							|| searchText.getText().replaceAll(" ", "").isEmpty()))
 				mark[i] = 1;
 
 		}
@@ -215,6 +241,55 @@ public class HomeController {
 
 			i++;
 		}
+
+		for (int j = 0; j < DataStorage.getRP().size(); j++) {
+			if (!list4.contains(DataStorage.getRP().get(j).getSuburb()))
+				list4.add(DataStorage.getRP().get(j).getSuburb());
+		}
+
 	}
 
+	@FXML
+	void Save() {
+		controller.DatabaseController.deleteTable();
+		controller.DatabaseController.create1();
+		controller.DatabaseController.create2();
+
+		for (int i = 0; i < DataStorage.getRP().size(); i++)
+			controller.DatabaseController.insert(DataStorage.getRP().get(i));
+		System.out.println(1);
+	}
+
+	@FXML
+	void Delete() {
+		controller.DatabaseController.deleteTable();
+		controller.DatabaseController.create1();
+		controller.DatabaseController.create2();
+		DataStorage.initialization();
+		change();
+	}
+	
+	public void show() {
+		Parent root;
+		Stage stage = new Stage();
+
+		try {
+
+			FXMLLoader loader = FXMLLoader.load(getClass().getResource("/view/HomeWindow.fxml"));
+			root = loader.load();
+			Scene scene = new Scene(root);
+
+			stage.setTitle("Welcome to the FexiRentSystem");
+			stage.setScene(scene);
+			stage.setResizable(true);
+			stage.show();
+			
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle(e.getClass().getSimpleName());
+			alert.setHeaderText("Error!");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
+		}
+	}
 }

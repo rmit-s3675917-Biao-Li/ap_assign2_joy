@@ -34,7 +34,13 @@ public abstract class RentalProperty {
 		this.numBedroom = nb;
 		this.propertyStatue = sts;
 		this.description = description;
-		this.imageFile = imageFile;
+
+		if (imageFile == null) {
+			this.imageFile = new File("Files/Image-Unavailable.jpg");
+
+		} else
+			this.imageFile = imageFile;
+		
 		this.image = new Image(this.imageFile.toURI().toURL().toString());
 
 	}
@@ -132,7 +138,7 @@ public abstract class RentalProperty {
 	}
 
 	public void completeMaintenance() {
-		this.lmDate = new DateTime();
+		this.setLmDate(new DateTime());
 		setPropertyStatue("available"); // ά�����
 
 	}
@@ -147,5 +153,13 @@ public abstract class RentalProperty {
 	public void setRentRecords(RentalRecord[] records) {
 		// TODO Auto-generated method stub
 		record = records;
+	}
+
+	public DateTime getLmDate() {
+		return lmDate;
+	}
+
+	public void setLmDate(DateTime lmDate) {
+		this.lmDate = lmDate;
 	}
 }

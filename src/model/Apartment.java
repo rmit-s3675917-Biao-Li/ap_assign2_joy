@@ -23,6 +23,7 @@ public class Apartment extends RentalProperty {
 			this.rate = 210;
 		else if (nb == 1)
 			this.rate = 143;
+		this.setLmDate(new DateTime());
 	}
 
 	public int getMinimum(DateTime rentDate) { // ����һ�죬�������С��������
@@ -45,7 +46,7 @@ public class Apartment extends RentalProperty {
 	}
 
 	public void rent(String customerId, DateTime rentDate, int numOfRentDay) throws controller.RentException {
-		if (rentDate.diffDays(rentDate, new DateTime()) < 0)
+		if (rentDate.diffDays(rentDate, new DateTime(-1)) < 0)
 			throw new controller.RentException(3);
 		if (numOfRentDay < getMinimum(rentDate))
 			throw new controller.RentException(2);

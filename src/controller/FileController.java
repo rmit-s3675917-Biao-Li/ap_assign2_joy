@@ -45,9 +45,9 @@ public class FileController {
 				System.out.println(line);
 				ss = line.split(":");
 				if (ss.length == 6) {
-					if (p.getPropertyStatue().equals("Rented") && ss[5].equals("none")) {
+					if (p.getPropertyStatue().equals("rented") && ss[5].equals("none")) {
 						RentalRecord r = new RentalRecord(ss[0], new model.DateTime(ss[1]), new model.DateTime(ss[2]),
-								new model.DateTime(), 0, 0);
+								null, 0, 0);
 						records[0] = r;
 					} else {
 						RentalRecord r = new RentalRecord(ss[0], new model.DateTime(ss[1]), new model.DateTime(ss[2]),
@@ -70,9 +70,9 @@ public class FileController {
 					}
 
 					number++;
-					i = 0;
-					records = new RentalRecord[10];
-					for (int j = 0; j < 10; j++) {
+					i = 1;
+					records = new RentalRecord[11];
+					for (int j = 0; j < 11; j++) {
 						records[j] = null;
 					}
 				}
@@ -95,11 +95,11 @@ public class FileController {
 				for (int i = 0; i < DataStorage.getRP().size(); i++) {
 					output.write(DataStorage.getRP().get(i).toString() + "\n");
 					System.out.println(model.DataStorage.getRP().get(i).toString());
-					if (DataStorage.getRP().get(i).getPropertyStatue().equals("Rented")) {
+					if (DataStorage.getRP().get(i).getPropertyStatue().equals("rented")) {
 						output.write(DataStorage.getRP().get(i).getRecord()[0].toString() + "\n");
 						System.out.println(DataStorage.getRP().get(i).getRecord()[0].toString());
 					}
-					for (int j = 0; j < 10; j++) {
+					for (int j = 1; j < 11; j++) {
 						if (DataStorage.getRP().get(i).getRecord()[j] == null)
 							break;
 						output.write(DataStorage.getRP().get(i).getRecord()[j].toString() + "\n");

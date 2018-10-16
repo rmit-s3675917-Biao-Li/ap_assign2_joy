@@ -1,8 +1,6 @@
 package view;
 
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -106,7 +103,6 @@ public class ShowDetailWindow {
 
 	@FXML
 	void initialize() {
-		RentalProperty p = this.p;
 		imageView.setImage(p.getImage());
 		P_ID.setText(p.getPropertyId());
 		Type.setText(p.getType());
@@ -135,24 +131,49 @@ public class ShowDetailWindow {
 			Rbutton.setDisable(false);
 			break;
 		case "maintenance":
-			Mbutton.setDisable(false);
+			FMbutton.setDisable(false);
 			break;
 		default:
 			break;
 		}
-		
-		bButton.setOnAction(e->{
+
+		bButton.setOnAction(e -> {
 			try {
 				RentDateSelect r = new RentDateSelect();
 				r.show(p);
-				Stage stage = (Stage)((Button)e.getSource()).getScene().getWindow();
+				Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 				stage.close();
-			}
-			catch (Exception e1) {
-				
+			} catch (Exception e1) {
+
 			}
 		});
 
+		Rbutton.setOnAction(e -> {
+			try {
+				ReturnDateSelect r = new ReturnDateSelect();
+				r.show(p);
+				Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+				stage.close();
+			} catch (Exception e1) {
+
+			}
+		});
+
+		Mbutton.setOnAction(e -> {
+			p.performMaintenance();
+			Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+			stage.close();
+			ShowDetailWindow a = new ShowDetailWindow();
+			a.show(p);
+		});
+
+		FMbutton.setOnAction(e -> {
+			p.completeMaintenance();
+			Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+			stage.close();
+			ShowDetailWindow a = new ShowDetailWindow();
+			a.show(p);
+		});
 	}
 
 	@FXML

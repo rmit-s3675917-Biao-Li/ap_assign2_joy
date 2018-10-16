@@ -1,6 +1,5 @@
 package view;
 
-import java.io.File;
 import java.io.IOException;
 
 import controller.AddPropertyException;
@@ -17,11 +16,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.DataStorage;
 
 public class AddApartmentWindow {
 
-	Stage stage = new Stage();
+	private static Stage stage = new Stage();
 	AnchorPane root;
 	
 	@FXML
@@ -60,27 +58,23 @@ public class AddApartmentWindow {
 	@FXML
 	public void initialize() {
 		BedNumCB.getItems().setAll("1", "2", "3");
-		//path.setText("...");
 		ComfirmBtn.setOnAction(e-> handle());
-		
+		UploadImageBtn.setOnAction(new controller.UploadImageHandler());
+	
 	}
 	
 	public void handle() {
 		try {
 			AddPropertyHandler.addProperty(PropertyID.getText(), "Apartment", StreetNoTF.getText(), StreetNameTF.getText(), SuburbTF.getText(),BedNumCB.getSelectionModel().getSelectedItem(), "", DescritpionTA.getText(), model.DataStorage.getSelectImage());
 			new view.NewWindowForAlert("Property Successfully Added");
-			File f = null;
-			DataStorage.setSelectImage(f);
-			initialize();
+			stage.close();
 		} catch (AddPropertyException e) {
 			System.out.println("Wrong Input");
 			
 		}
 	}
 
-	public static void setT(Text t) {
-		path = t;
-	}
+
 	
 	public void show() {
 

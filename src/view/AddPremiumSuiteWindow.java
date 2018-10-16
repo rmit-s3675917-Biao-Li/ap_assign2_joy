@@ -1,8 +1,6 @@
 package view;
 
-import java.io.File;
 import java.io.IOException;
-
 import controller.AddPropertyException;
 import controller.AddPropertyHandler;
 import javafx.fxml.FXML;
@@ -17,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.DataStorage;
 
 public class AddPremiumSuiteWindow {
 	@FXML
@@ -53,9 +50,30 @@ public class AddPremiumSuiteWindow {
 	@FXML
 	private Text path;
 
-	Stage stage = new Stage();
+	private static Stage stage = new Stage();
 	AnchorPane root;
+	
+	@FXML
+	public void initialize() {
 
+		ComfirmBtn.setOnAction(e -> handle());
+		UploadImageBtn.setOnAction(new controller.UploadImageHandler());
+
+	}
+
+	public void handle() {
+		try {
+			AddPropertyHandler.addProperty(PropertyID.getText(), "Premium Suite", StreetNoTF.getText(),
+					StreetNameTF.getText(), SuburbTF.getText(), "3", lastMaintenanceDate.getEditor().getText(),
+					DescritpionTA.getText(), model.DataStorage.getSelectImage());
+			new view.NewWindowForAlert("Property Successfully Added");
+			stage.close();
+		} catch (AddPropertyException e) {
+			System.out.println("Wrong Input");
+
+		}
+	}
+	
 	public void show() {
 
 		try {
@@ -77,25 +95,6 @@ public class AddPremiumSuiteWindow {
 		}
 	}
 
-	@FXML
-	public void initialize() {
 
-		ComfirmBtn.setOnAction(e -> handle());
 
-	}
-
-	public void handle() {
-		try {
-			AddPropertyHandler.addProperty(PropertyID.getText(), "Apartment", StreetNoTF.getText(),
-					StreetNameTF.getText(), SuburbTF.getText(), "3", lastMaintenanceDate.getEditor().getText(),
-					DescritpionTA.getText(), model.DataStorage.getSelectImage());
-			new view.NewWindowForAlert("Property Successfully Added");
-			File f = null;
-			DataStorage.setSelectImage(f);
-			initialize();
-		} catch (AddPropertyException e) {
-			System.out.println("Wrong Input");
-
-		}
-	}
 }

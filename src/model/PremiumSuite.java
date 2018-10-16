@@ -17,7 +17,7 @@ public class PremiumSuite extends RentalProperty {
 
 	public PremiumSuite(String pid, String type, String sn, String sna, String sb, String sts, String description,
 			File imageFile, DateTime dt) throws MalformedURLException {
-		super(pid, type, sn, sna, sb, 3, description, sts, imageFile);
+		super(pid, type, sn, sna, sb, 3, sts,description,  imageFile);
 		this.lmDate = dt;
 	}
 
@@ -54,7 +54,7 @@ public class PremiumSuite extends RentalProperty {
 	}
 
 	public void rent(String customerId, DateTime rentDate, int numOfRentDay) throws RentException {
-		if (rentDate.diffDays(rentDate, new DateTime()) < 0)
+		if (rentDate.diffDays(rentDate, new DateTime(-1)) < 0)
 			throw new controller.RentException(3);
 		if (numOfRentDay < getMinimum())
 			throw new controller.RentException(2);

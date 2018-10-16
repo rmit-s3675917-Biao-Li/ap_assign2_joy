@@ -3,9 +3,7 @@ package controller;
 import java.io.File;
 import java.util.ArrayList;
 
-import javafx.event.ActionEvent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+
 import model.Apartment;
 import model.DataStorage;
 
@@ -33,7 +31,7 @@ public class AddPropertyHandler {
 				try {
 					if (Integer.parseInt(bednum) < 1 && Integer.parseInt(bednum) > 3)
 						throw new AddPropertyException(5);
-					PL.add(new Apartment(id, aorP, stnum, stname, suburb, Integer.parseInt(bednum), "Available",
+					PL.add(new Apartment(id, aorP, stnum, stname, suburb, Integer.parseInt(bednum), "available",
 							desription, selectImage));
 				} catch (Exception e) {
 					throw new AddPropertyException(2);
@@ -46,7 +44,7 @@ public class AddPropertyHandler {
 					if (maintenanceDate.diffDays(new model.DateTime(-1), maintenanceDate) < 0)
 						throw new AddPropertyException(3);
 
-					model.PremiumSuite newSuite = new model.PremiumSuite(id, aorP, stnum, stname, suburb, "Available",
+					model.PremiumSuite newSuite = new model.PremiumSuite(id, aorP, stnum, stname, suburb, "available",
 							desription, selectImage, maintenanceDate);
 					PL.add(newSuite);
 
@@ -59,7 +57,7 @@ public class AddPropertyHandler {
 		}
 
 		DataStorage.setRP(PL);
-
+		DataStorage.setSelectImage(null);
 	}
 
 	private static boolean repeatId(String id) {

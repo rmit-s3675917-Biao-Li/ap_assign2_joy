@@ -1,22 +1,22 @@
 package model;
 
 public class RentalRecord {
-	private String recordId; // 记录ID
+	private String recordId; // è®°å½•ID
 	private String customerId="";
-	private DateTime rentDate; // 租房日期
-	private DateTime erDate; // 预计退房时间
-	private DateTime arDate; // 实际退房时间
-	private double rentalFee; // 未延期费
-	private double lateFee; // 延期费
+	private DateTime rentDate; // ç§Ÿæˆ¿æ—¥æœŸ
+	private DateTime erDate; // é¢„è®¡é€€æˆ¿æ—¶é—´
+	private DateTime arDate = null; // å®žé™…é€€æˆ¿æ—¶é—´
+	private double rentalFee; // æœªå»¶æœŸè´¹
+	private double lateFee; // å»¶æœŸè´¹
 
-	public RentalRecord(String propertyId, String customerId, int setClockForwardInDays) {// 当天入住, 住几天
+	public RentalRecord(String propertyId, String customerId, int setClockForwardInDays) {// å½“å¤©å…¥ä½�, ä½�å‡ å¤©
 		this.rentDate = new DateTime();
 		this.erDate = new DateTime(rentDate, setClockForwardInDays);
 		this.recordId = propertyId + "_" + customerId + "_" + this.rentDate.getEightDigitDate();
 		this.customerId = customerId;
 	}
 
-	public RentalRecord(String propertyId, String customerId, int day, int month, int year, int setClockForwardInDays) {// 某天入住，住几天
+	public RentalRecord(String propertyId, String customerId, int day, int month, int year, int setClockForwardInDays) {// æŸ�å¤©å…¥ä½�ï¼Œä½�å‡ å¤©
 		this.rentDate = new DateTime(day, month, year);
 		this.erDate = new DateTime(rentDate, setClockForwardInDays);
 		this.recordId = propertyId + "_" + customerId + "_" + this.rentDate.getEightDigitDate();
@@ -24,7 +24,7 @@ public class RentalRecord {
 	}
 
 	public RentalRecord(String propertyId, String customerId, int day, int month, int year, int eday, int emonth,
-			int eyear) {// 某天入住, 到几号
+			int eyear) {// æŸ�å¤©å…¥ä½�, åˆ°å‡ å�·
 		this.rentDate = new DateTime(day, month, year);
 		this.erDate = new DateTime(eday, emonth, eyear);
 		this.recordId = propertyId + "_" + customerId + "_" + this.rentDate.getEightDigitDate();

@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import model.RentalProperty;
 
 public class DataStorage {
-	private static ArrayList <RentalProperty> RP = new ArrayList <RentalProperty>();
+	private static ArrayList <RentalProperty> RP;
 	private static File f;
 	public static void initialization() {
+		RP = new ArrayList <RentalProperty>();
+		f = null;
 		
 	}
+	
 	public static ArrayList<RentalProperty> getRP() {
 		return RP;
 	}
