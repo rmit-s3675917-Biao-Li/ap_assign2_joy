@@ -1,10 +1,8 @@
 package view;
 
 import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -19,7 +17,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -108,21 +105,7 @@ public class HomeController {
 			view.AddPropertyWindow n = new view.AddPropertyWindow();
 			n.show(this);
 		});
-
-		searchText.setOnKeyTyped(new SearchHandeler());
-
-	}
-
-	public class SearchHandeler implements EventHandler<KeyEvent> {
-
-		@Override
-		public void handle(KeyEvent event) {
-			change();
-			System.out.println(searchText.getText().isEmpty());
-
-			System.out.println(1+ searchText.getText());
-			change();
-		}
+		
 	}
 
 	private void setFilter() {

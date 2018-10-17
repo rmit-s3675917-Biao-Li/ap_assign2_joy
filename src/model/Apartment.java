@@ -1,7 +1,6 @@
 package model;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.Calendar;
 
 import controller.ReturnException;

@@ -61,6 +61,9 @@ public class RentDateSelect {
 	@FXML
 	public void OK(ActionEvent event) {
 		try {
+			if (customerID.equals("") | date.getEditor().getText().equals("") | numOfDays.equals("")) {
+				throw new Exception();
+			}
 			p.rent(customerID.getText(), new model.DateTime(date.getEditor().getText()),
 					Integer.parseInt(numOfDays.getText()));
 			
@@ -71,7 +74,7 @@ public class RentDateSelect {
 			
 			new NewWindowForAlert("Book successfully");
 		} catch (Exception e1) {
-			
+			new view.NewWindowForAlert("Input invalid");
 		}
 	}
 

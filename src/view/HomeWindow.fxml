@@ -48,7 +48,7 @@
                   </Text>
                   <Region HBox.hgrow="ALWAYS" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search" textAlignment="CENTER" wrappingWidth="53.26171875" />
-                  <TextField fx:id="searchText" />
+                  <TextField fx:id="searchText" onKeyReleased="#change" />
                </children>
             </HBox>
          </children>

@@ -49,22 +49,26 @@ public class ReturnDateSelect {
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
 		}
-		
+
 	}
-	
+
 	@FXML
 	public void OK(ActionEvent event) {
 		try {
+			if (date.getEditor().getText().equals("")) {
+				throw new Exception();
+			}
 			p.returnProperty(new DateTime(date.getEditor().getText()));
-		
-			Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+
+			Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 			stage.close();
 			ShowDetailWindow s = new ShowDetailWindow();
 			s.show(p);
-			
+
 			new NewWindowForAlert("Book successfully");
 		} catch (Exception e1) {
-			
+			new view.NewWindowForAlert("Input invalid");
+
 		}
 	}
 
