@@ -58,6 +58,8 @@ public class AddPremiumSuiteWindow {
 
 		ComfirmBtn.setOnAction(e -> handle());
 		UploadImageBtn.setOnAction(new controller.UploadImageHandler());
+		BackBtn.setOnAction(e-> stage.close());
+
 
 	}
 
@@ -80,7 +82,7 @@ public class AddPremiumSuiteWindow {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddPremiumSuiteWindow.fxml"));
 			root = loader.load();
 			Scene scene = new Scene(root);
-			stage.setTitle("Add Apartment");
+			stage.setTitle("Add Premium Suite");
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.show();

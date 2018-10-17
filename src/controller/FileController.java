@@ -45,7 +45,7 @@ public class FileController {
 				System.out.println(line);
 				ss = line.split(":");
 				if (ss.length == 6) {
-					if (p.getPropertyStatue().equals("rented") && ss[5].equals("none")) {
+					if (p.getPropertyStatue().equals("Rented") && ss[5].equals("none")) {
 						RentalRecord r = new RentalRecord(ss[0], new model.DateTime(ss[1]), new model.DateTime(ss[2]),
 								null, 0, 0);
 						records[0] = r;
@@ -95,7 +95,7 @@ public class FileController {
 				for (int i = 0; i < DataStorage.getRP().size(); i++) {
 					output.write(DataStorage.getRP().get(i).toString() + "\n");
 					System.out.println(model.DataStorage.getRP().get(i).toString());
-					if (DataStorage.getRP().get(i).getPropertyStatue().equals("rented")) {
+					if (DataStorage.getRP().get(i).getPropertyStatue().equals("Rented")) {
 						output.write(DataStorage.getRP().get(i).getRecord()[0].toString() + "\n");
 						System.out.println(DataStorage.getRP().get(i).getRecord()[0].toString());
 					}

@@ -60,6 +60,7 @@ public class AddApartmentWindow {
 		BedNumCB.getItems().setAll("1", "2", "3");
 		ComfirmBtn.setOnAction(e-> handle());
 		UploadImageBtn.setOnAction(new controller.UploadImageHandler());
+		BackBtn.setOnAction(e-> stage.close());
 	
 	}
 	

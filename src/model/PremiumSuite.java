@@ -61,7 +61,7 @@ public class PremiumSuite extends RentalProperty {
 		if (new DateTime(rentDate, numOfRentDay).getTime() > new DateTime(lmDate, 10).getTime())
 			throw new controller.RentException(4);
 
-		setPropertyStatue("rented"); // ���³���״̬
+		setPropertyStatue("Rented"); // ���³���״̬
 		getRecord()[0] = new RentalRecord(getPropertyId(), customerId, rentDate, numOfRentDay);
 
 	}
@@ -70,7 +70,7 @@ public class PremiumSuite extends RentalProperty {
 		if (returnDate.getTime() < getRecord()[0].getRentDate().getTime())
 			throw new ReturnException(1);
 
-		setPropertyStatue("available"); // ���³���״̬
+		setPropertyStatue("Available"); // ���³���״̬
 		getRecord()[0].setArDate(returnDate);
 		// ����fee
 		getRecord()[0].setRentalFee(new DateTime().diffDays(returnDate, getRecord()[0].getRentDate()) * rate);

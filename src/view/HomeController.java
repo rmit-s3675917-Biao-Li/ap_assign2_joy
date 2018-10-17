@@ -118,12 +118,16 @@ public class HomeController {
 		@Override
 		public void handle(KeyEvent event) {
 			change();
+			System.out.println(searchText.getText().isEmpty());
+
+			System.out.println(1+ searchText.getText());
+			change();
 		}
 	}
 
 	private void setFilter() {
-		ObservableList<String> list1 = FXCollections.observableArrayList("All", "Apartment", "Premiun Suite");
-		ObservableList<String> list2 = FXCollections.observableArrayList("All", "available", "rented", "maintenance");
+		ObservableList<String> list1 = FXCollections.observableArrayList("All", "Apartment", "Premium Suite");
+		ObservableList<String> list2 = FXCollections.observableArrayList("All", "Available", "Rented", "Maintenance");
 		ObservableList<String> list3 = FXCollections.observableArrayList("All", "1", "2", "3");
 		list4.add("All");
 		for (int i = 0; i < DataStorage.getRP().size(); i++) {

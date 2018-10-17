@@ -134,12 +134,12 @@ public abstract class RentalProperty {
 	public abstract void returnProperty(DateTime returnDate) throws ReturnException;
 
 	public void performMaintenance() {
-		setPropertyStatue("maintenance"); // ����ά��
+		setPropertyStatue("Maintenance"); // ����ά��
 	}
 
 	public void completeMaintenance() {
 		this.setLmDate(new DateTime());
-		setPropertyStatue("available"); // ά�����
+		setPropertyStatue("Available"); // ά�����
 
 	}
 

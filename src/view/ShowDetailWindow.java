@@ -123,14 +123,14 @@ public class ShowDetailWindow {
 
 		setAllButtonDisable();
 		switch (p.getPropertyStatue()) {
-		case "available":
+		case "Available":
 			bButton.setDisable(false);
 			Mbutton.setDisable(false);
 			break;
-		case "rented":
+		case "Rented":
 			Rbutton.setDisable(false);
 			break;
-		case "maintenance":
+		case "Maintenance":
 			FMbutton.setDisable(false);
 			break;
 		default:
