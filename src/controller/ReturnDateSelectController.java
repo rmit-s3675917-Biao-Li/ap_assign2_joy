@@ -1,57 +1,28 @@
 package controller;
 
-import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert.AlertType;
 import model.DateTime;
 import model.RentalProperty;
 import view.NewWindowForAlert;
+import view.ShowDetailWindow;
 
-public class ReturnDateSelect {
+public class ReturnDateSelectController {
 	@FXML
 	private Button okButton;
 
 	@FXML
 	private DatePicker date;
 
-	private static RentalProperty p;
-	private Pane root;
-	Stage stage = new Stage();
-
+	private RentalProperty p;
+	
 	@FXML
 	public void initialize() {
 	}
 
-	public void show(RentalProperty p1) {
-		try {
-			p = p1;
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RentDateSelect.fxml"));
-			root = loader.load();
-			Scene scene = new Scene(root);
-			stage.setResizable(false);
-			stage.setScene(scene);
-			stage.show();
-
-		}
-
-		catch (IOException e) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle(e.getClass().getSimpleName());
-			alert.setHeaderText("Error!");
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
-		}
-
-	}
 
 	@FXML
 	public void OK(ActionEvent event) {
@@ -71,6 +42,10 @@ public class ReturnDateSelect {
 			new view.NewWindowForAlert("Input invalid");
 
 		}
+	}
+	
+	public void initalVariable(RentalProperty p) {
+		this.p = p;
 	}
 
 }

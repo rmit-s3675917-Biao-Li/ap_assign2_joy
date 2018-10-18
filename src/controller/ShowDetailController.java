@@ -1,21 +1,18 @@
 package controller;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import model.RentalProperty;
+import view.RentDateSelectWindow;
+import view.ReturnDateSelectWindow;
+import view.ShowDetailWindow;
 
-public class ShowDetailWindow {
+public class ShowDetailController {
 
 	@FXML
 	private ImageView imageView;
@@ -77,35 +74,47 @@ public class ShowDetailWindow {
 	@FXML
 	private Button deleteButton;
 
-	Stage stage = new Stage();
-	BorderPane root;
-	private static RentalProperty p;
+	private RentalProperty p;
 
-	public void show(RentalProperty p1) {
-		try {
-			p = p1;
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ShowDetailWindow.fxml"));
-			root = loader.load();
-			Scene scene = new Scene(root);
-			stage.setTitle("Choose Property Type");
-			stage.setResizable(true);
-			stage.setScene(scene);
-			stage.show();
-
-		}
-
-		catch (IOException e) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle(e.getClass().getSimpleName());
-			alert.setHeaderText("Error!");
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
-		}
-
-	}
 
 	@FXML
 	void initialize() {
+		
+	}
+
+	@FXML
+	void showRecord() {
+		String s = recordList.getSelectionModel().getSelectedItem();
+		if (s.equals("Current Record")) {
+			R_ID.setText(p.getRecord()[0].getRecordId());
+			Rdate.setText(p.getRecord()[0].getRentDate().getFormattedDate());
+			ERdate.setText(p.getRecord()[0].getErDate().getFormattedDate());
+			ARdate.setText("");
+			Rfee.setText("none");
+			Lfee.setText("none");
+		} else {
+			s = s.replace("Record ", "");
+			int i = Integer.parseInt(s);
+
+			R_ID.setText(p.getRecord()[i].getRecordId());
+			Rdate.setText(p.getRecord()[i].getRentDate().getFormattedDate());
+			ERdate.setText(p.getRecord()[i].getErDate().getFormattedDate());
+			ARdate.setText(p.getRecord()[i].getArDate().getFormattedDate());
+			Rfee.setText(String.valueOf(p.getRecord()[i].getRentalFee()));
+			Lfee.setText(String.valueOf(p.getRecord()[i].getLateFee()));
+		}
+	}
+
+	void setAllButtonDisable() {
+		bButton.setDisable(true);
+		Rbutton.setDisable(true);
+		Mbutton.setDisable(true);
+		FMbutton.setDisable(true);
+	}
+	
+
+	public void initVariable(RentalProperty p2) {
+		p = p2;
 		imageView.setImage(p.getImage());
 		P_ID.setText(p.getPropertyId());
 		Type.setText(p.getType());
@@ -142,7 +151,7 @@ public class ShowDetailWindow {
 
 		bButton.setOnAction(e -> {
 			try {
-				RentDateSelect r = new RentDateSelect();
+				RentDateSelectWindow r = new RentDateSelectWindow();
 				r.show(p);
 				Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 				stage.close();
@@ -153,7 +162,7 @@ public class ShowDetailWindow {
 
 		Rbutton.setOnAction(e -> {
 			try {
-				ReturnDateSelect r = new ReturnDateSelect();
+				ReturnDateSelectWindow r = new ReturnDateSelectWindow();
 				r.show(p);
 				Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 				stage.close();
@@ -177,41 +186,5 @@ public class ShowDetailWindow {
 			ShowDetailWindow a = new ShowDetailWindow();
 			a.show(p);
 		});
-	}
-
-	@FXML
-	void showRecord() {
-		String s = recordList.getSelectionModel().getSelectedItem();
-		if (s.equals("Current Record")) {
-			R_ID.setText(p.getRecord()[0].getRecordId());
-			Rdate.setText(p.getRecord()[0].getRentDate().getFormattedDate());
-			ERdate.setText(p.getRecord()[0].getErDate().getFormattedDate());
-			ARdate.setText("");
-			Rfee.setText("none");
-			Lfee.setText("none");
-		} else {
-			s = s.replace("Record ", "");
-			int i = Integer.parseInt(s);
-
-			R_ID.setText(p.getRecord()[i].getRecordId());
-			Rdate.setText(p.getRecord()[i].getRentDate().getFormattedDate());
-			ERdate.setText(p.getRecord()[i].getErDate().getFormattedDate());
-			ARdate.setText(p.getRecord()[i].getArDate().getFormattedDate());
-			Rfee.setText(String.valueOf(p.getRecord()[i].getRentalFee()));
-			Lfee.setText(String.valueOf(p.getRecord()[i].getLateFee()));
-		}
-	}
-
-	void setAllButtonDisable() {
-		bButton.setDisable(true);
-		Rbutton.setDisable(true);
-		Mbutton.setDisable(true);
-		FMbutton.setDisable(true);
-	}
-	
-	@FXML
-	void delete() {
-		model.DataStorage.getRP().remove(p);
-		stage.close();
 	}
 }

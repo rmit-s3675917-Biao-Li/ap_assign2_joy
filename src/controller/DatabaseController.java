@@ -36,7 +36,7 @@ public class DatabaseController {
 					+ "type VARCHAR(20) NOT NULL," + "stnum VARCHAR(8) NOT NULL," + "stname VARCHAR(20) NOT NULL,"
 					+ "suburb VARCHAR(20) NOT NULL," + "bednum INT NOT NULL," + "description VARCHAR(4000) NOT NULL,"
 					+ "status VARCHAR(20) NOT NULL," + "lastmaintain VARCHAR(12),"
-					+ "imagelocation VARCHAR(20) NOT NULL," + "PRIMARY KEY (id))");
+					+ "imagelocation VARCHAR(200) NOT NULL," + "PRIMARY KEY (id))");
 			if (result == 0) {
 				System.out.println("Table " + table1 + " has been created successfully");
 			} else {

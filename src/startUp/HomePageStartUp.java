@@ -8,17 +8,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class Main extends Application {
+public class HomePageStartUp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		model.DataStorage.initialization();
 		controller.DatabaseController.selectAll();
 
 		try {
-
 			Parent root = FXMLLoader.load(getClass().getResource("/view/HomeWindow.fxml"));
 			Scene scene = new Scene(root);
-
 			primaryStage.setTitle("Welcome to the FexiRentSystem");
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(true);

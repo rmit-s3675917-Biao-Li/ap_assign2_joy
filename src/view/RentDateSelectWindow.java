@@ -2,28 +2,27 @@ package view;
 
 import java.io.IOException;
 
-import controller.HomeController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import model.RentalProperty;
 
-public class AddPropertyWindow {
+public class RentDateSelectWindow {
 
-	public void show(HomeController homeController) {
+	public void show(RentalProperty p) {
 		try {
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AddPropertyWindow.fxml"));
+		    Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RentDateSelect.fxml"));
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
-			stage.setTitle("Choose Property Type");
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.show();
-			controller.AddPropertyController controller = loader.<controller.AddPropertyController>getController();
-			controller.initVariable(homeController,stage);
+			controller.RentDateSelectController controller = loader.<controller.RentDateSelectController>getController();
+			controller.initalVariable(p);
 		}
 
 		catch (IOException e) {

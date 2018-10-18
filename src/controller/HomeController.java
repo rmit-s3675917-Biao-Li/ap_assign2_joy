@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -24,7 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import model.DataStorage;
 
 public class HomeController {
@@ -67,7 +61,7 @@ public class HomeController {
 	@FXML
 	private ScrollPane sp;
 
-	ObservableList<String> list4 = FXCollections.observableArrayList();
+	private ObservableList<String> list4 = FXCollections.observableArrayList();
 
 	@FXML
 	public void initialize() {
@@ -158,9 +152,10 @@ public class HomeController {
 		TextFlow descriptionTA = new TextFlow();
 		descriptionTA.getChildren().add(new Text("Description: \n" + p.getDescription()));
 		descriptionTA.setPrefSize(600, 100);
+		
 		Button b = new Button("More Details");
 		b.setOnAction(e -> {
-			controller.ShowDetailWindow n = new controller.ShowDetailWindow();
+			view.ShowDetailWindow n = new view.ShowDetailWindow();
 			n.show(p);
 			System.out.println("Showing property details");
 		});
@@ -256,27 +251,5 @@ public class HomeController {
 		change();
 	}
 	
-	public void show() {
-		Parent root;
-		Stage stage = new Stage();
 
-		try {
-
-			FXMLLoader loader = FXMLLoader.load(getClass().getResource("/view/HomeWindow.fxml"));
-			root = loader.load();
-			Scene scene = new Scene(root);
-
-			stage.setTitle("Welcome to the FexiRentSystem");
-			stage.setScene(scene);
-			stage.setResizable(true);
-			stage.show();
-			
-		} catch (Exception e) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle(e.getClass().getSimpleName());
-			alert.setHeaderText("Error!");
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
-		}
-	}
 }

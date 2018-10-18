@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane prefHeight="934.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowDetailWindow">
+<BorderPane prefHeight="934.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowDetailController">
    <center>
       <VBox prefHeight="647.0" prefWidth="945.0">
          <children>
