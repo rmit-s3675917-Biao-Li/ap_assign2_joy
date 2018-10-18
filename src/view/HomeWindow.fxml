@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="957.0" prefWidth="1442.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HomeController">
+<BorderPane prefHeight="957.0" prefWidth="1442.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
    <top>
       <VBox BorderPane.alignment="CENTER">
          <children>

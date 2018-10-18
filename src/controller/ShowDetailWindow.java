@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -73,6 +73,9 @@ public class ShowDetailWindow {
 
 	@FXML
 	private Button FMbutton;
+	
+	@FXML
+	private Button deleteButton;
 
 	Stage stage = new Stage();
 	BorderPane root;
@@ -204,5 +207,11 @@ public class ShowDetailWindow {
 		Rbutton.setDisable(true);
 		Mbutton.setDisable(true);
 		FMbutton.setDisable(true);
+	}
+	
+	@FXML
+	void delete() {
+		model.DataStorage.getRP().remove(p);
+		stage.close();
 	}
 }

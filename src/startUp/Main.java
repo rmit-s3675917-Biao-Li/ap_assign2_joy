@@ -1,4 +1,4 @@
-package view;
+package startUp;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -14,7 +14,6 @@ public class Main extends Application {
 		model.DataStorage.initialization();
 		controller.DatabaseController.selectAll();
 
-
 		try {
 
 			Parent root = FXMLLoader.load(getClass().getResource("/view/HomeWindow.fxml"));
@@ -25,6 +24,7 @@ public class Main extends Application {
 			primaryStage.setResizable(true);
 			primaryStage.show();
 		} catch (Exception e) {
+
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle(e.getClass().getSimpleName());
 			alert.setHeaderText("Error!");

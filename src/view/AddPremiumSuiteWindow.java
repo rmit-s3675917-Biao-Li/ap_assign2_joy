@@ -1,8 +1,9 @@
 package view;
 
 import java.io.IOException;
-import controller.AddPropertyException;
+
 import controller.AddPropertyHandler;
+import exception.AddPropertyException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

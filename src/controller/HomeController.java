@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -160,7 +160,7 @@ public class HomeController {
 		descriptionTA.setPrefSize(600, 100);
 		Button b = new Button("More Details");
 		b.setOnAction(e -> {
-			view.ShowDetailWindow n = new view.ShowDetailWindow();
+			controller.ShowDetailWindow n = new controller.ShowDetailWindow();
 			n.show(p);
 			System.out.println("Showing property details");
 		});

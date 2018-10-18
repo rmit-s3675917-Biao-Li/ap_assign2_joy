@@ -3,8 +3,8 @@ package model;
 import java.io.File;
 import java.net.MalformedURLException;
 
-import controller.RentException;
-import controller.ReturnException;
+import exception.RentException;
+import exception.ReturnException;
 
 public class PremiumSuite extends RentalProperty {
 	private static int minimum = 1;
@@ -55,11 +55,11 @@ public class PremiumSuite extends RentalProperty {
 
 	public void rent(String customerId, DateTime rentDate, int numOfRentDay) throws RentException {
 		if (rentDate.diffDays(rentDate, new DateTime(-1)) < 0)
-			throw new controller.RentException(3);
+			throw new exception.RentException(3);
 		if (numOfRentDay < getMinimum())
-			throw new controller.RentException(2);
+			throw new exception.RentException(2);
 		if (new DateTime(rentDate, numOfRentDay).getTime() > new DateTime(lmDate, 10).getTime())
-			throw new controller.RentException(4);
+			throw new exception.RentException(4);
 
 		setPropertyStatue("Rented"); // ���³���״̬
 		getRecord()[0] = new RentalRecord(getPropertyId(), customerId, rentDate, numOfRentDay);

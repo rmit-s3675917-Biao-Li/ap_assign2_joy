@@ -3,7 +3,7 @@ package controller;
 import java.io.File;
 import java.util.ArrayList;
 
-
+import exception.AddPropertyException;
 import model.Apartment;
 import model.DataStorage;
 

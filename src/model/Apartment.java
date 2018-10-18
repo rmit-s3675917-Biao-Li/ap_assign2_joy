@@ -3,7 +3,7 @@ package model;
 import java.io.File;
 import java.util.Calendar;
 
-import controller.ReturnException;
+import exception.ReturnException;
 
 public class Apartment extends RentalProperty {
 	private int minimum; // ����ס����
@@ -44,13 +44,13 @@ public class Apartment extends RentalProperty {
 		return maximum;
 	}
 
-	public void rent(String customerId, DateTime rentDate, int numOfRentDay) throws controller.RentException {
+	public void rent(String customerId, DateTime rentDate, int numOfRentDay) throws exception.RentException {
 		if (rentDate.diffDays(rentDate, new DateTime(-1)) < 0)
-			throw new controller.RentException(3);
+			throw new exception.RentException(3);
 		if (numOfRentDay < getMinimum(rentDate))
-			throw new controller.RentException(2);
+			throw new exception.RentException(2);
 		if (numOfRentDay > getMaximum())
-			throw new controller.RentException(1);
+			throw new exception.RentException(1);
 		setPropertyStatue("Rented"); // ���³���״̬
 		getRecord()[0] = new RentalRecord(getPropertyId(), customerId, rentDate, numOfRentDay);
 

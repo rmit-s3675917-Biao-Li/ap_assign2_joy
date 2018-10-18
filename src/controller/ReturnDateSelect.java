@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.io.IOException;
 
@@ -9,24 +9,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
+import model.DateTime;
 import model.RentalProperty;
+import view.NewWindowForAlert;
 
-public class RentDateSelect {
+public class ReturnDateSelect {
 	@FXML
 	private Button okButton;
 
 	@FXML
-	private TextField customerID;
-
-	@FXML
 	private DatePicker date;
-
-	@FXML
-	private TextField numOfDays;
 
 	private static RentalProperty p;
 	private Pane root;
@@ -55,26 +50,26 @@ public class RentDateSelect {
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
 		}
-		
+
 	}
-	
+
 	@FXML
 	public void OK(ActionEvent event) {
 		try {
-			if (customerID.equals("") | date.getEditor().getText().equals("") | numOfDays.equals("")) {
+			if (date.getEditor().getText().equals("")) {
 				throw new Exception();
 			}
-			p.rent(customerID.getText(), new model.DateTime(date.getEditor().getText()),
-					Integer.parseInt(numOfDays.getText()));
-			
-			Stage stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+			p.returnProperty(new DateTime(date.getEditor().getText()));
+
+			Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 			stage.close();
 			ShowDetailWindow s = new ShowDetailWindow();
 			s.show(p);
-			
+
 			new NewWindowForAlert("Book successfully");
 		} catch (Exception e1) {
 			new view.NewWindowForAlert("Input invalid");
+
 		}
 	}
 

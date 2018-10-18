@@ -3,8 +3,8 @@ package model;
 import java.io.File;
 import java.net.MalformedURLException;
 
-import controller.RentException;
-import controller.ReturnException;
+import exception.RentException;
+import exception.ReturnException;
 import javafx.scene.image.Image;
 
 public abstract class RentalProperty {

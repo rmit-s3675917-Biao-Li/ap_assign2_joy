@@ -1,4 +1,4 @@
-package controller;
+package exception;
 
 public class RentException extends Exception {
 	/**
