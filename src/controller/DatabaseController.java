@@ -50,7 +50,7 @@ public class DatabaseController {
 		try (Connection con = getConnection(DB_NAME); Statement stmt = con.createStatement();) {
 			int result = stmt.executeUpdate("CREATE TABLE RECOREDS (" + "PROPERTY_ID VARCHAR(20) NOT NULL,"
 					+ "RECORD_ID VARCHAR(300) NOT NULL," + "CUSTOMER_ID VARCHAR(20)," + "RENTDATE VARCHAR(20) NOT NULL,"
-					+ "ESTMATEDATE VARCHAR(20) NOT NULL," + "ACTUALRETURNDATE VARCHAR(20),"
+					+ "ESTMATEDATE VARCHAR(20) NOT NULL," + "ACTUALRETURNDATE VARCHAR(20) NOT NULL,"
 					+ "RENTALFEE DOUBLE NOT NULL," + "LATEFEE DOUBLE NOT NULL," + "PRIMARY KEY (RECORD_ID))");
 			if (result == 0) {
 				System.out.println("Table " + table2 + " has been created successfully");
@@ -87,7 +87,7 @@ public class DatabaseController {
 				String query = "INSERT INTO " + table2 + " VALUES ('" + p.getPropertyId() + "', '"
 						+ p.getRecord()[0].getRecordId() + "', '" + "null" + "', '"
 						+ p.getRecord()[0].getRentDate().getFormattedDate() + "', '"
-						+ p.getRecord()[0].getErDate().getFormattedDate() + "', '" + "null" + "', " + -1 + ", " + -1
+						+ p.getRecord()[0].getErDate().getFormattedDate() + "', '" + " " + "', " + -1 + ", " + -1
 						+ ")";
 				int result = stmt.executeUpdate(query);
 				con.commit();
@@ -208,13 +208,17 @@ public class DatabaseController {
 					customerid = resultSet.getString("CUSTOMER_ID");
 					rentdate = new DateTime(resultSet.getString("RENTDATE"));
 					estreturndate = new DateTime(resultSet.getString("ESTMATEDATE"));
-					if (resultSet.getString("ACTUALRETURNDATE") == "null")
+					System.out.println(resultSet.getString("ACTUALRETURNDATE"));
+					if (resultSet.getString("ACTUALRETURNDATE").equals(" "))
 						actualreturndate = null;
 					else
 						actualreturndate = new DateTime(resultSet.getString("ACTUALRETURNDATE"));
 					rentfee = resultSet.getDouble("RENTALFEE");
 					latefee = resultSet.getDouble("LATEFEE");
 System.out.println(rentfee+" "+latefee);
+if (rentfee == 1001.0) {
+	System.out.println(11);
+}
 					if (rentfee == -1) {
 						record = new RentalRecord(p.getPropertyId(), customerid, rentdate,
 								estreturndate.diffDays(estreturndate, rentdate));
