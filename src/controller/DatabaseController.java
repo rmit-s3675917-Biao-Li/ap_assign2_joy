@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 import model.DateTime;
 import model.RentalProperty;
 import model.RentalRecord;
@@ -51,7 +50,7 @@ public class DatabaseController {
 		try (Connection con = getConnection(DB_NAME); Statement stmt = con.createStatement();) {
 			int result = stmt.executeUpdate("CREATE TABLE RECOREDS (" + "PROPERTY_ID VARCHAR(20) NOT NULL,"
 					+ "RECORD_ID VARCHAR(300) NOT NULL," + "CUSTOMER_ID VARCHAR(20)," + "RENTDATE VARCHAR(20) NOT NULL,"
-					+ "ESTMATEDATE VARCHAR(20) NOT NULL," + "ACTUALRETURNDATE VARCHAR(20) NOT NULL,"
+					+ "ESTMATEDATE VARCHAR(20) NOT NULL," + "ACTUALRETURNDATE VARCHAR(20),"
 					+ "RENTALFEE DOUBLE NOT NULL," + "LATEFEE DOUBLE NOT NULL," + "PRIMARY KEY (RECORD_ID))");
 			if (result == 0) {
 				System.out.println("Table " + table2 + " has been created successfully");
@@ -68,10 +67,9 @@ public class DatabaseController {
 		// use try-with-resources Statement
 		try (Connection con = getConnection(DB_NAME); Statement stmt = con.createStatement();) {
 			String query = "INSERT INTO " + table1 + " VALUES ('" + p.getPropertyId() + "', '" + p.getType() + "', '"
-					+ p.getStreetNum() + "', '" + p.getStreetName() + "', '" + p.getSuburb() + "', " + p.getNumBedroom() + ", '"
-					+ p.getDescription() + "', '" + p.getPropertyStatue() + "', '" + p.getLmDate().getFormattedDate()
-					+ "', '" + p.getImageFile().getPath() + "')";
-
+					+ p.getStreetNum() + "', '" + p.getStreetName() + "', '" + p.getSuburb() + "', " + p.getNumBedroom()
+					+ ", '" + p.getDescription() + "', '" + p.getPropertyStatue() + "', '"
+					+ p.getLmDate().getFormattedDate() + "', '" + p.getImageFile().getPath() + "')";
 
 			int result = stmt.executeUpdate(query);
 
@@ -85,14 +83,15 @@ public class DatabaseController {
 
 		try (Connection con = getConnection(DB_NAME); Statement stmt = con.createStatement();) {
 
-			if (p.getPropertyStatue().equals("rented")) {
+			if (p.getPropertyStatue().equals("Rented")) {
 				String query = "INSERT INTO " + table2 + " VALUES ('" + p.getPropertyId() + "', '"
-						+ p.getRecord()[0].getRecordId() + "', '" + p.getRecord()[0].getCustomerId() + "', '"
+						+ p.getRecord()[0].getRecordId() + "', '" + "null" + "', '"
 						+ p.getRecord()[0].getRentDate().getFormattedDate() + "', '"
-						+ p.getRecord()[0].getErDate().getFormattedDate() + "', '"
-						+ p.getRecord()[0].getArDate().getFormattedDate() + "', " + -1 + ", " + -1 + ")";
+						+ p.getRecord()[0].getErDate().getFormattedDate() + "', '" + "null" + "', " + -1 + ", " + -1
+						+ ")";
 				int result = stmt.executeUpdate(query);
 				con.commit();
+				System.out.println(query);
 				System.out.println("Insert into table " + table2 + " executed successfully");
 				System.out.println(result + " row(s) affected");
 			}
@@ -108,8 +107,8 @@ public class DatabaseController {
 							+ rentRecords[i].getRecordId() + "', '" + rentRecords[i].getCustomerId() + "', '"
 							+ rentRecords[i].getRentDate().getFormattedDate() + "', '"
 							+ rentRecords[i].getErDate().getFormattedDate() + "', '"
-							+ rentRecords[i].getArDate().getFormattedDate() + "', "
-							+ rentRecords[i].getRentalFee() + ", " + rentRecords[i].getLateFee() + ")";
+							+ rentRecords[i].getArDate().getFormattedDate() + "', " + rentRecords[i].getRentalFee()
+							+ ", " + rentRecords[i].getLateFee() + ")";
 					System.out.println(query);
 					int result = stmt.executeUpdate(query);
 					con.commit();
@@ -164,7 +163,8 @@ public class DatabaseController {
 						p = new model.Apartment(id, type, stnum, stname, suburb, bednum, status, Description,
 								imageFile);
 					else
-						p = new model.PremiumSuite(id, type, stnum, stname, suburb, status, Description, imageFile,lastMaintenance);
+						p = new model.PremiumSuite(id, type, stnum, stname, suburb, status, Description, imageFile,
+								lastMaintenance);
 
 					p = selectTable2(p);
 					propertylist.add(p);
@@ -196,7 +196,9 @@ public class DatabaseController {
 		for (int i = 0; i < 11; i++) {
 			rentRecords[i] = null;
 		}
-		int j = 1;
+
+		int j=1;
+		
 		try (Connection con = getConnection(DB_NAME); Statement stmt = con.createStatement();) {
 			String query = "SELECT * FROM " + table2 + " WHERE PROPERTY_ID = '" + p.getPropertyId() + "'";
 
@@ -206,15 +208,20 @@ public class DatabaseController {
 					customerid = resultSet.getString("CUSTOMER_ID");
 					rentdate = new DateTime(resultSet.getString("RENTDATE"));
 					estreturndate = new DateTime(resultSet.getString("ESTMATEDATE"));
-					actualreturndate = new DateTime(resultSet.getString("ACTUALRETURNDATE"));
+					if (resultSet.getString("ACTUALRETURNDATE") == "null")
+						actualreturndate = null;
+					else
+						actualreturndate = new DateTime(resultSet.getString("ACTUALRETURNDATE"));
 					rentfee = resultSet.getDouble("RENTALFEE");
 					latefee = resultSet.getDouble("LATEFEE");
-
+System.out.println(rentfee+" "+latefee);
 					if (rentfee == -1) {
-						record = new RentalRecord(p.getPropertyId(), customerid, rentdate, estreturndate.diffDays(estreturndate, rentdate));
+						record = new RentalRecord(p.getPropertyId(), customerid, rentdate,
+								estreturndate.diffDays(estreturndate, rentdate));
 						rentRecords[0] = record;
-						} else {
-						record = new RentalRecord(record_id, rentdate, estreturndate, actualreturndate, rentfee, latefee);
+					} else {
+						record = new RentalRecord(record_id, rentdate, estreturndate, actualreturndate, rentfee,
+								latefee);
 						rentRecords[j] = record;
 						j++;
 					}

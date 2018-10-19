@@ -77,7 +77,8 @@ public class Apartment extends RentalProperty {
 
 	public String toString() {
 		return getPropertyId() + ":" + String.valueOf(getStreetNum()) + ":" + getStreetName() + ":" + getSuburb() + ":"
-				+ getType() + ":" + String.valueOf(getNumBedroom()) + ":" + getPropertyStatue();
+				+ getType() + ":" + String.valueOf(getNumBedroom()) + ":" + getPropertyStatue() + ":"
+				+ this.getImageFile().getPath() + ":" + this.getDescription();
 	}
 
 	@Override

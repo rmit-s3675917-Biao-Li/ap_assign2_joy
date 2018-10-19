@@ -17,7 +17,7 @@ public class PremiumSuite extends RentalProperty {
 
 	public PremiumSuite(String pid, String type, String sn, String sna, String sb, String sts, String description,
 			File imageFile, DateTime dt) throws MalformedURLException {
-		super(pid, type, sn, sna, sb, 3, sts,description,  imageFile);
+		super(pid, type, sn, sna, sb, 3, sts, description, imageFile);
 		this.lmDate = dt;
 	}
 
@@ -89,7 +89,7 @@ public class PremiumSuite extends RentalProperty {
 	public String toString() {
 		return getPropertyId() + ":" + String.valueOf(getStreetNum()) + ":" + getStreetName() + ":" + getSuburb() + ":"
 				+ getType() + ":" + String.valueOf(getNumBedroom()) + ":" + getPropertyStatue() + ":"
-				+ getLmDate().toString();
+				+ this.getImageFile().getPath() + ":" + getLmDate().toString() + ":" + this.getDescription();
 	}
 
 	@Override

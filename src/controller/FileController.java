@@ -57,16 +57,17 @@ public class FileController {
 						p.setRentRecords(records);
 					}
 				} else {
-					if (number != 0)
+					if (number != 0) {
+						p.setRentRecords(records);
 						RP.add(p);
-
+					}
 					if (ss.length == 9)
-						p = new model.Apartment(ss[0], ss[4], ss[1], ss[2], ss[3],
-								Integer.parseInt(ss[5]), ss[6], ss[8], new File("Files/" + ss[7]));
+						p = new model.Apartment(ss[0], ss[4], ss[1], ss[2], ss[3], Integer.parseInt(ss[5]), ss[6],
+								ss[8], new File(ss[7]));
 					else if (ss.length == 10) {
 						// Integer.parseInt(ss[5])
 						p = new model.PremiumSuite(ss[0], ss[4], ss[1], ss[2], ss[3], ss[6], ss[9],
-								new File("Files/" + ss[8]), new DateTime(ss[7]));
+								new File(ss[7]), new DateTime(ss[8]));
 					}
 
 					number++;
@@ -79,8 +80,9 @@ public class FileController {
 				System.out.println(line);
 
 			}
-			if (number != 0)
+			if (number != 0) {
 				RP.add(p);
+			}
 			DataStorage.setRP(RP);
 			input.close();
 
